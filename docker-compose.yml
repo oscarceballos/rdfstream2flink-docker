@@ -1,0 +1,80 @@
+version: "2.2"
+services:
+  citybench-ext:
+    image: citybench-ext
+    build: ./citybench-ext/
+    container_name: citybench-ext
+    ports:
+      - "5555:5555"
+      - "5556:5556"
+    networks:
+      net:
+        ipv4_address: 192.168.5.5
+
+  jobmanager:
+    image: flink:1.10.0-scala_2.11
+    container_name: jobmanager
+    depends_on:
+      - citybench-ext
+    expose:
+      - "6123"
+    ports:
+      - "8081:8081"
+    command: jobmanager
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: 192.168.5.10
+    networks:
+      net:
+        ipv4_address: 192.168.5.10
+    volumes:
+      - ~/rdfstream2flink-docker/output:/output
+
+  taskmanager1:
+    image: flink:1.10.0-scala_2.11
+    container_name: taskmanager1
+    expose:
+      - "6121"
+      - "6122"
+    depends_on:
+      - jobmanager
+    command: taskmanager
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: 192.168.5.10
+        taskmanager.numberOfTaskSlots: 1
+    networks:
+      net:
+        ipv4_address: 192.168.5.15
+    volumes:
+      - ~/rdfstream2flink-docker/output:/output
+
+  taskmanager2:
+    image: flink:1.10.0-scala_2.11
+    container_name: taskmanager2
+    expose:
+      - "6121"
+      - "6122"
+    depends_on:
+      - jobmanager
+    command: taskmanager
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: 192.168.5.10
+        taskmanager.numberOfTaskSlots: 1
+    networks:
+      net:
+        ipv4_address: 192.168.5.20
+    volumes:
+      - ~/rdfstream2flink-docker/output:/output
+
+networks:
+  net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.5.0/16
+          gateway: 192.168.5.1

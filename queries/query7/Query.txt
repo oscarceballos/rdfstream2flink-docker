@@ -1,0 +1,24 @@
+# Q7: Notify me whenever a parking place near to my destination is full?
+
+#Property: ParkingVacancy
+
+SELECT ?obId1 ?v1 ?obId2 ?v2 
+WHERE {
+	STREAM <http://www.insight-centre.org/dataset/SampleEventService#AarhusParkingDataKALKVAERKSVEJ> [RANGE 30m] 
+	{
+		?obId1 a ?ob .
+		?obId1 <http://purl.oclc.org/NET/ssnx/ssn#observedProperty> <http://www.insight-centre.org/dataset/SampleEventService#parkingproperty-8> .
+		?obId1 <http://purl.oclc.org/NET/sao/hasValue> ?v1 .
+		?obId1 <http://purl.oclc.org/NET/ssnx/ssn#observedBy> <http://www.insight-centre.org/dataset/SampleEventService#AarhusParkingDataKALKVAERKSVEJ> .
+	}
+
+	STREAM <http://www.insight-centre.org/dataset/SampleEventService#AarhusParkingDataSKOLEBAKKEN> [RANGE 30m] 
+	{
+		?obId2 a ?ob .
+		?obId2 <http://purl.oclc.org/NET/ssnx/ssn#observedProperty> <http://www.insight-centre.org/dataset/SampleEventService#parkingproperty-4> .
+		?obId2 <http://purl.oclc.org/NET/sao/hasValue> ?v2 .
+		?obId2 <http://purl.oclc.org/NET/ssnx/ssn#observedBy> <http://www.insight-centre.org/dataset/SampleEventService#AarhusParkingDataSKOLEBAKKEN> .
+	}
+
+	FILTER(?v1<1||?v2<1)
+}

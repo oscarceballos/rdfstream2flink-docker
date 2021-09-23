@@ -1,0 +1,31 @@
+# Q10: Notify me every 30 seconds about the most polluted area in the city
+
+#Properties: CongestionLevel
+
+SELECT ?obId1 ?v1 ?obId2 ?v2 ?obId3 ?v3
+  
+WHERE {
+	STREAM <http://www.insight-centre.org/dataset/SampleEventService#AarhusPollutionData182955> [RANGE 30m SLIDE 20m] 
+	{
+		?obId1 a ?ob.
+		?obId1 <http://purl.oclc.org/NET/ssnx/ssn#observedProperty> <http://www.insight-centre.org/dataset/SampleEventService#Property-c779fccb-2989-4e3e-ac14-d88b2a35c7d2>.
+		?obId1 <http://purl.oclc.org/NET/sao/hasValue> ?v1.
+		?obId1 <http://purl.oclc.org/NET/ssnx/ssn#observedBy> <http://www.insight-centre.org/dataset/SampleEventService#AarhusPollutionData182955>.
+	}
+
+	STREAM <http://www.insight-centre.org/dataset/SampleEventService#AarhusPollutionData158505> [RANGE 30m SLIDE 20m]
+	{
+		?obId2 a ?ob.
+		?obId2 <http://purl.oclc.org/NET/ssnx/ssn#observedProperty> <http://www.insight-centre.org/dataset/SampleEventService#Property-e4501818-7eaa-4ec4-a11f-513c20eb58b0>.
+		?obId2 <http://purl.oclc.org/NET/sao/hasValue> ?v2.
+		?obId2 <http://purl.oclc.org/NET/ssnx/ssn#observedBy> <http://www.insight-centre.org/dataset/SampleEventService#AarhusPollutionData158505>.
+	}
+	
+	STREAM <http://www.insight-centre.org/dataset/SampleEventService#AarhusPollutionData206502> [RANGE 30m SLIDE 20m]
+	{
+		?obId3 a ?ob.
+		?obId3 <http://purl.oclc.org/NET/ssnx/ssn#observedProperty> <http://www.insight-centre.org/dataset/SampleEventService#Property-e0e6b03a-9c95-41ba-be5a-37a373d36979>.
+		?obId3 <http://purl.oclc.org/NET/sao/hasValue> ?v3.
+		?obId3 <http://purl.oclc.org/NET/ssnx/ssn#observedBy> <http://www.insight-centre.org/dataset/SampleEventService#AarhusPollutionData206502>.
+	}
+}
