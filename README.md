@@ -173,6 +173,8 @@ git clone https://github.com/oscarceballos/rdfstream2flink-docker.git
 tail -f /output/Query-Flink-Result
 ```
 
+
+
 ### References
 Ali, M. I., Gao, F., and Mileo, A. (2015). Citybench: A configurable benchmark to evaluate rsp engines using smart city datasets. In Arenas, M., Corcho, O., Simperl, E., Strohmaier, M., d’Aquin, M., Srinivas, K., Groth, P., Dumontier, M., Heflin, J., Thirunarayan, K., and Staab, S., editors, The Semantic Web - ISWC 2015, pages 374–389, Cham. Springer International Publishing
 
