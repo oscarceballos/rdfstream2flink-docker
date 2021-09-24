@@ -105,6 +105,60 @@ WHERE {
 }
 ```
 
+### Query 10
+The Q10 query is an analytical query executed over the pollution data streams to find out which area in the city in most polluted and how this information evolves. The data streams are taken from AarhusPollutionData182955, Aarhus- PollutionData158505, and AarhusPollutionData206502 pollution sensors. Contrary to previous queries, in this case the keywords RANGE and SLIDE refers to time-based sliding window which produces results every 30 seconds.
+```
+PREFIX ses: <http://www.insight−centre.org/dataset/SampleEventService#>
+PREFIX ssn : <http :// purl . oclc . org/NET/ssnx/ssn#>
+PREFIX sao: <http://purl.oclc.org/NET/sao/>
+
+SELECT ?obId1 ?obId2 ?obId3 ?v1 ?v2 ?v3
+WHERE {
+  STREAM ses:PollutionData182955 [RANGE 3m SLIDE 30s]
+  {
+    ?obId1 a ?ob .
+    ?obId1 ssn:observeProperty ses:CongestionLevel .
+    ?obId1 sao:hasValue ?v1 .
+    ?obId1 ssn:observedBy ses:PollutionData182955 .
+  }
+  
+  STREAM ses:PollutionData158505 [RANGE 3m SLIDE 30s]
+  {
+    ?obId1 a ?ob .
+    ?obId1 ssn:observeProperty ses:CongestionLeve .
+    ?obId1 sao:hasValue ?v2 .
+    ?obId1 ssn:observedBy ses:PollutionData158505 .
+  }
+  
+  STREAM ses:PollutionData206502 [RANGE 3m SLIDE 30s]
+  {
+    ?obId1 a ?ob .
+    ?obId1 ssn:observeProperty ses:CongestionLevel .
+    ?obId1 sao:hasValue ?v3 .
+    ?obId1 ssn:observedBy ses:PollutionData206502 .
+  }
+}
+```
+
+### Query 1A
+The query Q1A is a variant of Q1 query. In this case, the query only use one traffic sensor, i.e., AarhusTrafficData182955 and the keyword is TRIPLES which refers to count-based tumbling window with a size equal to 300 elements.
+```
+PREFIX ses: <http://www.insight−centre.org/dataset/SampleEventService#>
+PREFIX ssn : <http :// purl . oclc . org/NET/ssnx/ssn#>
+PREFIX sao: <http://purl.oclc.org/NET/sao/>
+
+SELECT ?obId1 ?v1 ?obId2 ?v2
+WHERE {
+  STREAM ses:TrafficData182955 [TRIPLES 300]
+  {
+    ?obId1 a ?ob .
+    ?obId1 ssn:observeProperty ses:AvgSpeed .
+    ?obId1 sao:hasValue ?v1 .
+    ?obId1 ssn:observedBy ses:TrafficData182955 .
+  }
+}
+```
+
 ## Steps to run RDFStream2Flink with docker-compose
 1. Download rdfstream2flink-docker repository
 ```
