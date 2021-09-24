@@ -24,7 +24,7 @@ git clone https://github.com/oscarceballos/rdfstream2flink-docker.git
 ```
 3. Run the following command to see the query results
 ```
-tail -f path-to-output/Query-Flink-Result
+tail -f /output/Query-Flink-Result
 ```
 
 ### References
